@@ -18,33 +18,22 @@ import java.time.LocalDateTime;
 @RestControllerAdvice
 public class GlobalExceptionHandler {
 
- 
-
     @ExceptionHandler(AuthenticationException.class)
-
     public ResponseEntity<ErrorResponse> manejarAutenticacion(
 
             AuthenticationException ex,
-
             HttpServletRequest request) {
-
- 
 
         // Construir el objeto de respuesta de error con todos los campos.
 
         ErrorResponse error = new ErrorResponse(
 
                 LocalDateTime.now(),                   // momento del error
-
                 HttpStatus.UNAUTHORIZED.value(),       // 401
-
                 "Credenciales inválidas o usuario no encontrado", // mensaje descriptivo
-
                 request.getRequestURI()               // ruta que causó el error
 
         );
-
- 
 
         // ResponseEntity permite controlar el código de estado HTTP de la respuesta.
 
@@ -56,8 +45,6 @@ public class GlobalExceptionHandler {
 
     }
 
- 
-
     // @ExceptionHandler(AccessDeniedException.class): maneja los casos donde
 
     // el usuario está autenticado pero no tiene permiso para la operación.
@@ -67,28 +54,19 @@ public class GlobalExceptionHandler {
     // — por ejemplo, un CLIENTE que intenta hacer POST en /api/productos.
 
     @ExceptionHandler(AccessDeniedException.class)
-
     public ResponseEntity<ErrorResponse> manejarAccesoDenegado(
 
             AccessDeniedException ex,
-
             HttpServletRequest request) {
-
- 
 
         ErrorResponse error = new ErrorResponse(
 
                 LocalDateTime.now(),
-
                 HttpStatus.FORBIDDEN.value(),          // 403
-
                 "No tienes permiso para realizar esta operación",
-
                 request.getRequestURI()
 
         );
-
- 
 
         return ResponseEntity.status(HttpStatus.FORBIDDEN).body(error);
 
@@ -109,24 +87,16 @@ public class GlobalExceptionHandler {
     public ResponseEntity<ErrorResponse> manejarGeneral(
 
             Exception ex,
-
             HttpServletRequest request) {
-
- 
 
         ErrorResponse error = new ErrorResponse(
 
                 LocalDateTime.now(),
-
                 HttpStatus.INTERNAL_SERVER_ERROR.value(), // 500
-
                 "Ocurrió un error interno en el servidor",
-
                 request.getRequestURI()
 
         );
-
- 
 
         return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(error);
 
